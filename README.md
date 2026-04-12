@@ -163,7 +163,7 @@ Enjoy it!
 
 _Special thanks to Maja Kądziołka (meithecatte) for finding some bugs and suggesting enhancements._
 
-There's a bootOS fork by jakiki6 capable of running from an USB stick, and including many other changes. Download from: https://github.com/laura240406/bootOS
+There's a bootOS fork by laura240406 capable of running from an USB stick, and including many other changes. Download from: https://github.com/laura240406/bootOS
 
 
 ### >> ATTENTION <<        
