@@ -1,20 +1,13 @@
-     _                 _    ____   _____ 
-    | |               | |  / __ \ / ____|
-    | |__   ___   ___ | |_| |  | | (___  
-    | '_ \ / _ \ / _ \| __| |  | |\___ \ 
-    | |_) | (_) | (_) | |_| |__| |____) |
-    |_.__/ \___/ \___/ \__|\____/|_____/                                                                           
+# MiniOS operating system in 512 bytes (boot sector)
+### by Sprinklekit
 
-# bootOS operating system in 512 bytes (boot sector)
-### by Oscar Toledo G. Jul/22/2019
+I don't have personal site yet
 
-[http://nanochess.org](http://nanochess.org)
-
-[https://github.com/nanochess/bootOS](https://github.com/nanochess/bootOS)
+[https://github.com/SprinklekitOfficial/MiniOS
 
 It's compatible with 8088 (the original IBM PC).
 
-If you want to assemble it, you must download the Netwide Assembler (nasm) from [www.nasm.us](http://nasm.us/) or Tinyasm from [https://github.com/nanochess/tinyasm](https://github.com/nanochess/tinyasm)
+If you want to assemble it, you must download the Netwide Assembler (nasm) from [www.nasm.us](http://nasm.us/) or Tinyasm
 
 Use this command line:
 
@@ -23,9 +16,9 @@ Use this command line:
     tinyasm -f bin os.asm -l os.lst -o os.img
 
         
-### What is bootOS:
+### What is MiniOS:
 
-bootOS is a monolithic operating system that fits in one boot sector. It's able to load, execute, and save programs. Also keeps a filesystem. It can work with any floppy disk size starting at 180K.
+MiniOS is a monolithic operating system that fits in one boot sector. It's able to load, execute, and save programs. Also keeps a filesystem. It can work with any floppy disk size starting at 180K.
 
 It relocates itself at 0000:7a00 and requires further 768 bytes of memory starting at 0000:7700.
 
@@ -59,7 +52,7 @@ It provides the following services:
 
 ### Filesystem organization:
 
-bootOS uses tracks from 0 to 32, side 0, sector 1.
+MiniOS uses tracks from 0 to 32, side 0, sector 1.
 
 The directory is contained in track 0, side 0, sector 2.
 
@@ -72,7 +65,7 @@ Each file is one sector long. Its location in the disk is derived from its posit
 The 1st file is located at track 1, side 0, sector 1. The 2nd file is located at track 2, side 0, sector 1. The 32nd file is located at track 32, side 0, sector 1.
  
 
-### Starting bootOS:
+### Starting MiniOS:
 
 Just make sure to write it at the boot sector of a floppy disk. It can work with any floppy disk size (360K, 720K, 1.2MB and 1.44MB) and it will waste the disk space as only uses the first two sectors of the disk and then the first sector of each following track.
         
@@ -89,11 +82,11 @@ Tested with VirtualBox for Mac OS X running Windows XP running it, it also works
 
     qemu-system-x86_64 -fda os.img
 
-### Running bootOS:
+### Running MiniOS:
 
 The first time you should enter the 'format' command, so it initializes the directory. It also copies itself again to the boot sector, this is useful to init new disks.
         
-### bootOS commands:
+### MiniOS commands:
 
     ver           Shows the version (none at the moment)
     dir           Shows the directory's content.
@@ -124,7 +117,7 @@ For example: (Character + is Enter key)
     Hello, world
     $
         
-### bootOS programs: (Oh yes! we have software support)
+### MiniOS programs: (Oh yes! we have software support)
         
     cubicDoom     https://github.com/nanochess/cubicDoom
     bricks        https://github.com/nanochess/bricks
@@ -202,4 +195,4 @@ More Boot Sector Games then you must get this book!
   * bootRogue
   * bricks
   * cubicDoom
-  * bootOS
+  * MiniOS
