@@ -1,12 +1,12 @@
      1                                          ;
-     2                                          ; bootOS, an operating system in 512 bytes
+     2                                          ; MiniOS, an operating system in 512 bytes
      3                                          ;
-     4                                          ; by Oscar Toledo G.
-     5                                          ; http://nanochess.org/
+     4                                          ; by Sprinklekit
+     5                                          ; >:3
      6                                          ;
-     7                                          ; Creation date: Jul/21/2019. 6pm 10pm
-     8                                          ; Revision date: Jul/22/2019. Optimization, corrections and comments.
-     9                                          ; Revision date: Jul/31/2019. Added a service table and allows
+     7                                          ; Creation date: Jun/13/2026. 6pm 10pm
+     8                                          ; Revision date: Jun/13/2026. Optimization, corrections and comments.
+     9                                          ; Revision date: Jun/13/2026. Added a service table and allows
     10                                          ;                             filenames/sources/targets from any segment.
     11                                          ;                             'del' command now shows errors.
     12                                          ;
@@ -14,9 +14,9 @@
     14                                          cpu 8086
     15                                  
     16                                          ;
-    17                                          ; What is bootOS:
+    17                                          ; What is MiniOS:
     18                                          ; 
-    19                                          ;   bootOS is a monolithic operating system that fits in
+    19                                          ;   MiniOS is a monolithic operating system that fits in
     20                                          ;   one boot sector. It's able to load, execute, and save
     21                                          ;   programs. Also keeps a filesystem. It can work with
     22                                          ;   any floppy disk size starting at 180K.
@@ -54,7 +54,7 @@
     54                                          ; 
     55                                          ; Filesystem organization:
     56                                          ;
-    57                                          ;   bootOS uses tracks from 0 to 32, side 0, sector 1.
+    57                                          ;   MiniOS uses tracks from 0 to 32, side 0, sector 1.
     58                                          ;
     59                                          ;   The directory is contained in track 0, side 0, sector 2.
     60                                          ;
@@ -73,7 +73,7 @@
     73                                          ;   The 32nd file is located at track 32, side 0, sector 1.
     74                                          ;
     75                                          ;
-    76                                          ; Starting bootOS:
+    76                                          ; Starting MiniOS:
     77                                          ;
     78                                          ;   Just make sure to write it at the boot sector of a
     79                                          ;   floppy disk. It can work with any floppy disk size
@@ -100,14 +100,14 @@
    100                                          ; 
    101                                          ;     qemu-system-x86_64 -fda os.img
    102                                          ; 
-   103                                          ; Running bootOS:
+   103                                          ; Running MiniOS:
    104                                          ;
    105                                          ;   The first time you should enter the 'format' command,
    106                                          ;   so it initializes the directory. It also copies itself
    107                                          ;   again to the boot sector, this is useful to init new
    108                                          ;   disks.
    109                                          ;
-   110                                          ; bootOS commands:
+   110                                          ; MiniOS commands:
    111                                          ;
    112                                          ;   ver           Shows the version (none at the moment)
    113                                          ;   dir           Shows the directory's content.
@@ -138,7 +138,7 @@
    138                                          ;   Hello, world
    139                                          ;   $
    140                                          ;
-   141                                          ; bootOS programs: (Oh yes! we have software support)
+   141                                          ; MiniOS programs: (Oh yes! we have software support)
    142                                          ;
    143                                          ;   fbird         https://github.com/nanochess/fbird
    144                                          ;   Pillman       https://github.com/nanochess/pillman
@@ -166,7 +166,7 @@
    166                                  max_entries:    equ sector_size/entry_size
    167                                  
    168                                          ;
-   169                                          ; Cold start of bootOS
+   169                                          ; Cold start of MiniOS
    170                                          ;
    171                                          ; Notice it is loaded at 0x7c00 (boot) and needs to
    172                                          ; relocate itself to 0x7a00 (osbase). The instructions
@@ -183,7 +183,7 @@
    183 00000008 BC0077                          mov sp,stack    ; Set stack to guarantee data safety
    184                                  
    185 0000000B FC                              cld             ; Clear D flag.
-   186 0000000C BE007C                          mov si,boot     ; Copy bootOS boot sector...
+   186 0000000C BE007C                          mov si,boot     ; Copy MiniOS boot sector...
    187 0000000F BF007A                          mov di,osbase   ; ...into osbase
    188 00000012 B90002                          mov cx,sector_size
    189 00000015 F3A4                            rep movsb
@@ -209,7 +209,7 @@
    209 00000029 CD20                            int int_restart ; Restart bootOS
    210                                  
    211                                          ;
-   212                                          ; Warm start of bootOS
+   212                                          ; Warm start of MiniOS
    213                                          ;
    214                                  restart:
    215 0000002B FC                              cld             ; Clear D flag.
@@ -450,7 +450,7 @@
    450 00000106 BF0078                          mov di,sector   ; Fill whole sector to zero
    451 00000109 B90002                          mov cx,sector_size
    452 0000010C E80C00                          call write_zero_dir
-   453 0000010F BB007A                          mov bx,osbase   ; Copy bootOS onto first sector
+   453 0000010F BB007A                          mov bx,osbase   ; Copy MiniOS onto first sector
    454 00000112 49                              dec cx
    455 00000113 EB12                            jmp short disk
    456                                  
@@ -458,7 +458,7 @@
    458                                          ; Read the directory from disk
    459                                          ;
    460                                  read_dir:
-   461 00000115 0E                              push cs         ; bootOS code segment...
+   461 00000115 0E                              push cs         ; MiniOS code segment...
    462 00000116 07                              pop es          ; ...to sanitize ES register
    463 00000117 B402                            mov ah,0x02
    464 00000119 EB06                            jmp short disk_dir
@@ -614,13 +614,13 @@
    614                                          ; Our amazing presentation line
    615                                          ;
    616                                  intro:
-   617 000001B4 626F6F744F5300                  db "bootOS",0
+   617 000001B4 626F6F744F5300                  db "MiniOS",0
    618                                  
    619                                  error_message:
    620 000001BB 4F6F707300                      db "Oops",0
    621                                  
    622                                          ;
-   623                                          ; Commands supported by bootOS
+   623                                          ; Commands supported by MiniOS
    624                                          ;
    625                                  commands:
    626 000001C0 03646972                        db 3,"dir"
