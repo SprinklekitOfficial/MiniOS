@@ -1,10 +1,10 @@
         ;
-        ; Shows how to use bootOS services
+        ; Shows how to use MiniOS services
         ;
-        ; by Oscar Toledo G.
-        ; http://nanochess.org/
+        ; by Sprinklekit
+        ; >:3
         ;
-        ; Creation date: Jul/31/2019.
+        ; Creation date: Jun/13/2026
         ;
 
         org 0x7c00
@@ -84,7 +84,7 @@ start:
         pop bx
         int 0x24                ; Save file.
 
-        int 0x20                ; Return to bootOS.
+        int 0x20                ; Return to MiniOS.
 
 name:   db "data.bin",0         ; Filename.
 
