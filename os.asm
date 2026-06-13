@@ -1,12 +1,12 @@
         ;
-        ; bootOS, an operating system in 512 bytes
+        ; MiniOS, an operating system in 512 bytes
         ;
-        ; by Oscar Toledo G.
-        ; http://nanochess.org/
+        ; by Sprinklekit
+        ; >:3
         ;
-        ; Creation date: Jul/21/2019. 6pm 10pm
-        ; Revision date: Jul/22/2019. Optimization, corrections and comments.
-        ; Revision date: Jul/31/2019. Added a service table and allows
+        ; Creation date: Jun/13/2026. 6pm 10pm
+        ; Revision date: Jun/13/2026. Optimization, corrections and comments.
+        ; Revision date: Jun/13/2026. Added a service table and allows
         ;                             filenames/sources/targets from any segment.
         ;                             'del' command now shows errors.
         ;
@@ -14,9 +14,9 @@
         cpu 8086
 
         ;
-        ; What is bootOS:
+        ; What is MiniOS:
         ; 
-        ;   bootOS is a monolithic operating system that fits in
+        ;   MiniOS is a monolithic operating system that fits in
         ;   one boot sector. It's able to load, execute, and save
         ;   programs. Also keeps a filesystem. It can work with
         ;   any floppy disk size starting at 180K.
@@ -54,7 +54,7 @@
         ; 
         ; Filesystem organization:
         ;
-        ;   bootOS uses tracks from 0 to 32, side 0, sector 1.
+        ;   MiniOS uses tracks from 0 to 32, side 0, sector 1.
         ;
         ;   The directory is contained in track 0, side 0, sector 2.
         ;
@@ -73,7 +73,7 @@
         ;   The 32nd file is located at track 32, side 0, sector 1.
         ;
         ;
-        ; Starting bootOS:
+        ; Starting MiniOS:
         ;
         ;   Just make sure to write it at the boot sector of a
         ;   floppy disk. It can work with any floppy disk size
@@ -100,14 +100,14 @@
         ; 
         ;     qemu-system-x86_64 -fda os.img
         ; 
-        ; Running bootOS:
+        ; Running MiniOS:
         ;
         ;   The first time you should enter the 'format' command,
         ;   so it initializes the directory. It also copies itself
         ;   again to the boot sector, this is useful to init new
         ;   disks.
         ;
-        ; bootOS commands:
+        ; MiniOS commands:
         ;
         ;   ver           Shows the version (none at the moment)
         ;   dir           Shows the directory's content.
@@ -138,7 +138,7 @@
         ;   Hello, world
         ;   $
         ;
-        ; bootOS programs: (Oh yes! we have software support)
+        ; MiniOS programs: (Oh yes! we have software support)
         ;
         ;   fbird         https://github.com/nanochess/fbird
         ;   Pillman       https://github.com/nanochess/pillman
@@ -166,7 +166,7 @@ sector_size:    equ 512 ; Sector size
 max_entries:    equ sector_size/entry_size
 
         ;
-        ; Cold start of bootOS
+        ; Cold start of MiniOS
         ;
         ; Notice it is loaded at 0x7c00 (boot) and needs to
         ; relocate itself to 0x7a00 (osbase). The instructions
@@ -458,7 +458,7 @@ format_command:
         ; Read the directory from disk
         ;
 read_dir:
-        push cs         ; bootOS code segment...
+        push cs         ; MiniOS code segment...
         pop es          ; ...to sanitize ES register
         mov ah,0x02
         jmp short disk_dir
@@ -614,13 +614,13 @@ os15:
         ; Our amazing presentation line
         ;
 intro:
-        db "bootOS",0
+        db "MiniOS",0
 
 error_message:
         db "Oops",0
 
         ;
-        ; Commands supported by bootOS
+        ; Commands supported by MiniOS
         ;
 commands:
         db 3,"dir"
